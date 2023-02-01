@@ -1,0 +1,557 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:FGOSDBE.Modules.ModuleName.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    x:Class="FGOSDBE.Modules.ModuleName.Views.ViewA" 
+    mc:Ignorable="d"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    d:DesignWidth="800" d:DesignHeight="450"
+    >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <TextBox IsReadOnly="True" Text="{Binding ServantDBText.Value}"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Button Command="{Binding DisplayClearCommand}" Foreground="White" Background="Red">項目クリア</Button>
+                </Grid>
+                <UniformGrid Grid.Row="1" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>ID:</TextBlock>
+                        <TextBox Text="{Binding ID.Value}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>サーヴァント名:</TextBlock>
+                        <TextBox Text="{Binding NameJP.Value}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>ServantName:</TextBlock>
+                        <TextBox Text="{Binding NameEN.Value}"/>
+                    </StackPanel>
+                </UniformGrid>
+                <UniformGrid Grid.Row="2" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>レアリティ:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=RealityList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedReality.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>クラス:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=ServantClassList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedServantClass.Value}" Height="104"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>イベント産:</TextBlock>
+                        <CheckBox IsChecked="{Binding GetFromEvent.Value}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="{Binding ServantIcon.Value}" Height="100"/>
+                    </StackPanel>
+                </UniformGrid>
+                <UniformGrid Grid.Row="3" Rows="1">
+                    <TextBlock>スキルアイコン:</TextBlock>
+                    <Image Source="{Binding Skill1IconPath.Value}" Height="30"/>
+                    <Button Command="{Binding naviSkill1IconCommand}">選択</Button>
+                    <Image Source="{Binding Skill2IconPath.Value}" Height="30"/>
+                    <Button Command="{Binding naviSkill2IconCommand}">選択</Button>
+                    <Image Source="{Binding Skill3IconPath.Value}" Height="30"/>
+                    <Button Command="{Binding naviSkill3IconCommand}">選択</Button>
+                </UniformGrid>
+                <UniformGrid Grid.Row="4" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>宝具タイプ:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=NPTypeList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedNPType.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>宝具対象:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=NPTargetList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedNPTarget.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>方針:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=PolicyList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedPolicy.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>性格:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=PersonalityList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedPersonality.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock>属性:</TextBlock>
+                        <ListBox ItemsSource="{Binding Path=AttributeList.Value}" DisplayMemberPath="DisplayText" SelectedItem="{Binding SelectedAttribute.Value}" />
+                    </StackPanel>
+                </UniformGrid>
+                <Grid Grid.Row="5">
+                    <ListView ItemsSource="{Binding TraitList.Value}" SelectionMode="Multiple" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="IsSelected" Value="{Binding IsSelected.Value, Mode=TwoWay}" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayText}" Margin="0 0 10 0"></TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+                <UniformGrid Grid.Row="6" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>再臨１:</TextBlock>
+                            <Button Command="{Binding naviAdAgain1Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding AdAgain1.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>再臨２:</TextBlock>
+                            <Button Command="{Binding naviAdAgain2Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding AdAgain2.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>再臨３:</TextBlock>
+                            <Button Command="{Binding naviAdAgain3Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding AdAgain3.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>再臨４:</TextBlock>
+                            <Button Command="{Binding naviAdAgain4Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding AdAgain4.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </UniformGrid>
+                <UniformGrid Grid.Row="7" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv1→2:</TextBlock>
+                            <Button Command="{Binding naviSkill1Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill1.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv2→3:</TextBlock>
+                            <Button Command="{Binding naviSkill2Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill2.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv3→4:</TextBlock>
+                            <Button Command="{Binding naviSkill3Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill3.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv4→5:</TextBlock>
+                            <Button Command="{Binding naviSkill4Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill4.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </UniformGrid>
+                <UniformGrid Grid.Row="8" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv5→6:</TextBlock>
+                            <Button Command="{Binding naviSkill5Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill5.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv6→7:</TextBlock>
+                            <Button Command="{Binding naviSkill6Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill6.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv7→8:</TextBlock>
+                            <Button Command="{Binding naviSkill7Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill7.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>スキルLv8→9:</TextBlock>
+                            <Button Command="{Binding naviSkill8Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Skill8.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </UniformGrid>
+                <UniformGrid Grid.Row="9" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv1→2:</TextBlock>
+                            <Button Command="{Binding naviASkill1Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill1.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv2→3:</TextBlock>
+                            <Button Command="{Binding naviASkill2Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill2.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv3→4:</TextBlock>
+                            <Button Command="{Binding naviASkill3Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill3.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv4→5:</TextBlock>
+                            <Button Command="{Binding naviASkill4Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill4.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </UniformGrid>
+                <UniformGrid Grid.Row="10" Rows="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv5→6:</TextBlock>
+                            <Button Command="{Binding naviASkill5Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill5.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv6→7:</TextBlock>
+                            <Button Command="{Binding naviASkill6Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill6.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv7→8:</TextBlock>
+                            <Button Command="{Binding naviASkill7Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill7.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>AスキルLv8→9:</TextBlock>
+                            <Button Command="{Binding naviASkill8Command}">選択</Button>
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding ASkill8.Value}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding IconPath}" Height="30"/>
+                                        <TextBox Text="{Binding Quantity}" Width="20"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </UniformGrid>
+                <Grid Grid.Row="11">
+                    <Button Command="{Binding GenerateDBTextCommand}">テキスト再作成</Button>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

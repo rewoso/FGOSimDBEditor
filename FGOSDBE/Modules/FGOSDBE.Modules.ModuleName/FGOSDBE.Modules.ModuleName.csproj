@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>FGOSDBE.Modules.ModuleName</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+    <PackageReference Include="ReactiveProperty" Version="8.2.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FGOSDBE.Core\FGOSDBE.Core.csproj" />
+    <ProjectReference Include="..\..\Models\FGOSDBE.Models.SDBEModel\FGOSDBE.Models.SDBEModel.csproj" />
+    <ProjectReference Include="..\..\Services\FGOSDBE.Services.Interfaces\FGOSDBE.Services.Interfaces.csproj" />
+  </ItemGroup>
+</Project>
