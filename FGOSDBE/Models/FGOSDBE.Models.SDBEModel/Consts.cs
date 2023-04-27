@@ -63,6 +63,7 @@ namespace FGOSDBE.Models.SDBEModel
             AlterEgo,
             Foreigner,
             Pretender,
+            Beast,
         }
         public static string ServantClassTextSaber = "セイバー";
         public static string ServantClassTextArcher = "アーチャー";
@@ -78,9 +79,10 @@ namespace FGOSDBE.Models.SDBEModel
         public static string ServantClassTextAlterEgo = "アルターエゴ";
         public static string ServantClassTextForeigner = "フォーリナー";
         public static string ServantClassTextPretender = "プリテンダー";
+        public static string ServantClassTextBeast = "ビースト";
 
         public static List<ServantClass> ServantClassBasic = new List<ServantClass> { ServantClass.Saber, ServantClass.Archer, ServantClass.Lancer, ServantClass.Rider, ServantClass.Caster, ServantClass.Assassin, ServantClass.Berserker };
-        public static List<ServantClass> ServantClassExtra = new List<ServantClass> { ServantClass.Ruler, ServantClass.Avenger, ServantClass.Shielder, ServantClass.MoonCancer, ServantClass.AlterEgo, ServantClass.Foreigner, ServantClass.Pretender };
+        public static List<ServantClass> ServantClassExtra = new List<ServantClass> { ServantClass.Ruler, ServantClass.Avenger, ServantClass.Shielder, ServantClass.MoonCancer, ServantClass.AlterEgo, ServantClass.Foreigner, ServantClass.Pretender, ServantClass.Beast };
 
         public const string MaterialByClassSaberPiece = "100";
         public const string MaterialByClassSaberMonument = "110";

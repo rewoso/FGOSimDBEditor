@@ -579,6 +579,7 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
                     case Consts.ServantClass.Shielder:
                     case Consts.ServantClass.Foreigner:
                     case Consts.ServantClass.Pretender:
+                    case Consts.ServantClass.Beast:
                         InitMaterialExtraClassTypeEvery(materials, usematerials);
                         break;
                     default:
@@ -1057,6 +1058,7 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
                 case Consts.ServantClass.Avenger:
                 case Consts.ServantClass.Foreigner:
                 case Consts.ServantClass.Pretender:
+                case Consts.ServantClass.Beast:
 
                     foreach (var selectedmaterial in selectedmaterials)
                     {

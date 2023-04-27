@@ -64,6 +64,9 @@ namespace FGOSDBE.Modules.ModuleName.Models
                 case Consts.ServantClass.Pretender:
                     DisplayText = Consts.ServantClassTextPretender;
                     break;
+                case Consts.ServantClass.Beast:
+                    DisplayText = Consts.ServantClassTextBeast;
+                    break;
                 default:
                     DisplayText = string.Empty;
                     break;
