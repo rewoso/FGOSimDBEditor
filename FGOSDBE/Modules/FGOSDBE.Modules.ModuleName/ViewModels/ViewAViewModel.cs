@@ -1188,8 +1188,11 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
                     {
                         if (linecount == 7)
                         {
-                            var trait = TraitList.Value.Where(x => x.ValueString == data.Trim()).FirstOrDefault();
-                            trait.IsSelected.Value = true;
+                            if (TraitList.Value.Any(x => x.ValueString == data.Trim()))
+                            {
+                                var trait = TraitList.Value.Where(x => x.ValueString == data.Trim()).FirstOrDefault();
+                                trait.IsSelected.Value = true;
+                            }
                         }
                         else
                         {
