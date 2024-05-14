@@ -16,7 +16,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <TextBox IsReadOnly="True" Text="{Binding ServantDBText.Value}"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button Command="{Binding naviDataInputCommand}" Foreground="White" Background="Green">既存情報取込</Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBox IsReadOnly="True" Text="{Binding ServantDBText.Value}"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Button Command="{Binding copyClipBoardCommand}" Foreground="White" Background="Green">クリップボードへコピー</Button>
+            </Grid>
         </Grid>
         <Grid Grid.Column="1">
             <Grid>

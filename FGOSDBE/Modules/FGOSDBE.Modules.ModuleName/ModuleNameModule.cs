@@ -24,6 +24,7 @@ namespace FGOSDBE.Modules.ModuleName
         {
             containerRegistry.RegisterForNavigation<ViewA>();
             containerRegistry.RegisterForNavigation<MaterialSelecterView>();
+            containerRegistry.RegisterForNavigation<ServantDBInput>();
         }
     }
 }

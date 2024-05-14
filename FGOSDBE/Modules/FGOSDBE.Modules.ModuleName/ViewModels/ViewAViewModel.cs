@@ -9,11 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace FGOSDBE.Modules.ModuleName.ViewModels
 {
     public class ViewAViewModel : RegionViewModelBase
     {
+        private const string naviTargetServantDBInput = "ServantDBInput";
         private const string UseMaterialTargetSkill1Icon = "Skill1Icon";
         private const string UseMaterialTargetSkill2Icon = "Skill2Icon";
         private const string UseMaterialTargetSkill3Icon = "Skill3Icon";
@@ -278,7 +280,9 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
 
         public ReactiveCommand GenerateDBTextCommand { get; }
         public ReactiveCommand DisplayClearCommand { get; }
-        
+        public ReactiveCommand naviDataInputCommand { get; }
+        public ReactiveCommand copyClipBoardCommand { get; }
+
 
         /// <summary>
         /// サーヴァントDBにコピペする用のテキスト
@@ -420,6 +424,10 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
             naviASkill8Command.Subscribe(_ => naviMaterialSelecter("ASkill8", "Material", ASkill8.Value, null));
             DisplayClearCommand = new ReactiveCommand();
             DisplayClearCommand.Subscribe(_ => DisplayClear());
+            naviDataInputCommand = new ReactiveCommand();
+            naviDataInputCommand.Subscribe(_ => naviServantDBInput());
+            copyClipBoardCommand = new ReactiveCommand();
+            copyClipBoardCommand.Subscribe(_ => copyClipBoard());
             GenerateDBTextCommand = new ReactiveCommand();
             GenerateDBTextCommand.Subscribe(_ => ServantDBText.Value = getServantDBText());
 
@@ -505,6 +513,9 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
                         break;
                     case UseMaterialTargetASkill8:
                         setParamTargetTypeMaterial(navigationContext.Parameters["Materials"], ASkill8);
+                        break;
+                    case naviTargetServantDBInput:
+                        setServantData(navigationContext.Parameters["ServantDBText"].ToString());
                         break;
                     default:
                         break;
@@ -1149,6 +1160,201 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
             ServantDBText.Value = getServantDBText();
         }
 
+        private void naviServantDBInput()
+        {
+            var param = new NavigationParameters();
+            param.Add("Target", "ServantDBInput");
+
+            RegionManager.RequestNavigate(RegionNames.ContentRegion, nameof(Views.ServantDBInput), param);
+        }
+
+        private void setServantData(string servantdbtext)
+        {
+            int linecount = 0;
+            var dbtextlinearray = servantdbtext.Split("\r\n");
+            foreach (var dbtextline in dbtextlinearray)
+            {
+                if (dbtextline.Trim().Length == 0)
+                {
+                    continue;
+                }
+
+                linecount++;
+
+                if (linecount <= 7)
+                {
+                    var dataarray = dbtextline.Trim().Split(",", StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var data in dataarray)
+                    {
+                        if (linecount == 7)
+                        {
+                            var trait = TraitList.Value.Where(x => x.ValueString == data.Trim()).FirstOrDefault();
+                            trait.IsSelected.Value = true;
+                        }
+                        else
+                        {
+                            if (data.Trim().StartsWith("id:"))
+                            {
+                                ID.Value = data.Split(":")[1].Trim();
+                            }
+                            else if (data.Trim().StartsWith("text:"))
+                            {
+                                NameJP.Value = data.Split(":")[1].Replace("\"", "").Trim();
+                            }
+                            else if (data.Trim().StartsWith("text2:"))
+                            {
+                                NameEN.Value = data.Split(":")[1].Replace("\"", "").Trim();
+                            }
+                            else if (data.Trim().StartsWith("value:"))
+                            {
+                                SelectedReality.Value = RealityList.Value.Find(x => x.ValueString == data.Split(":")[1].Trim());
+                            }
+                            else if (data.Trim().StartsWith("kind:"))
+                            {
+                                SelectedServantClass.Value = ServantClassList.Value.Find(x => x.ValueString == data.Split(":")[1].Trim());
+                            }
+                            else if (data.Trim().StartsWith("event:"))
+                            {
+                                GetFromEvent.Value = data.Split(":")[1].Trim() == "1";
+                            }
+                            else if (data.Trim().StartsWith("icon1:"))
+                            {
+                                setParamTargetTypeSkill(data.Split(":")[1].Trim(), Skill1Icon, Skill1IconPath);
+                            }
+                            else if (data.Trim().StartsWith("icon2:"))
+                            {
+                                setParamTargetTypeSkill(data.Split(":")[1].Trim(), Skill2Icon, Skill2IconPath);
+                            }
+                            else if (data.Trim().StartsWith("icon3:"))
+                            {
+                                setParamTargetTypeSkill(data.Split(":")[1].Trim(), Skill3Icon, Skill3IconPath);
+                            }
+                            else if (data.Trim().StartsWith("nptype"))
+                            {
+                                SelectedNPType.Value = NPTypeList.Value.Find(x => x.ValueString == data.Trim());
+                            }
+                            else if (data.Trim().StartsWith("npeffect"))
+                            {
+                                SelectedNPTarget.Value = NPTargetList.Value.Find(x => x.ValueString == data.Trim());
+                            }
+                            else if (data.Trim().StartsWith("policy"))
+                            {
+                                SelectedPolicy.Value = PolicyList.Value.Find(x => x.ValueString == data.Trim());
+                            }
+                            else if (data.Trim().StartsWith("personal"))
+                            {
+                                SelectedPersonality.Value = PersonalityList.Value.Find(x => x.ValueString == data.Trim());
+                            }
+                            else if (data.Trim().StartsWith("attrbute"))
+                            {
+                                SelectedAttribute.Value = AttributeList.Value.Find(x => x.ValueString == data.Trim());
+                            }
+                            else if (data.Trim().StartsWith("attrbute"))
+                            {
+                                SelectedAttribute.Value = AttributeList.Value.Find(x => x.ValueString == data.Trim());
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    string materialstext = dbtextline.Substring(dbtextline.IndexOf("{") + 1, dbtextline.IndexOf("}") - dbtextline.IndexOf("{") - 1).Trim();
+                    if (dbtextline.Trim().StartsWith("AdAgain1"))
+                    {
+                        setUseMaterial(AdAgain1, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("AdAgain2"))
+                    {
+                        setUseMaterial(AdAgain2, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("AdAgain3"))
+                    {
+                        setUseMaterial(AdAgain3, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("AdAgain4"))
+                    {
+                        setUseMaterial(AdAgain4, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill1"))
+                    {
+                        setUseMaterial(Skill1, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill2"))
+                    {
+                        setUseMaterial(Skill2, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill3"))
+                    {
+                        setUseMaterial(Skill3, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill4"))
+                    {
+                        setUseMaterial(Skill4, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill5"))
+                    {
+                        setUseMaterial(Skill5, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill6"))
+                    {
+                        setUseMaterial(Skill6, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill7"))
+                    {
+                        setUseMaterial(Skill7, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("skill8"))
+                    {
+                        setUseMaterial(Skill8, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill1"))
+                    {
+                        setUseMaterial(ASkill1, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill2"))
+                    {
+                        setUseMaterial(ASkill2, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill3"))
+                    {
+                        setUseMaterial(ASkill3, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill4"))
+                    {
+                        setUseMaterial(ASkill4, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill5"))
+                    {
+                        setUseMaterial(ASkill5, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill6"))
+                    {
+                        setUseMaterial(ASkill6, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill7"))
+                    {
+                        setUseMaterial(ASkill7, materialstext);
+                    }
+                    else if (dbtextline.Trim().StartsWith("askill8"))
+                    {
+                        setUseMaterial(ASkill8, materialstext);
+                    }
+                }
+            }
+        }
+
+        private void setUseMaterial(ReactiveProperty<List<UseMaterialModel>> usematerials, string targetmaterials)
+        {
+            usematerials.Value = new List<UseMaterialModel>();
+
+            var materialsarray = targetmaterials.Split(",");
+            foreach (var materials in materialsarray)
+            {
+                var materialpartsarray = materials.Split(":");
+                usematerials.Value.Add(SetUserMaterialModel(materialpartsarray[0].Trim(), materialpartsarray[1].Trim()));
+            }
+        }
+
         private string getServantDBText()
         {
             string returntext = string.Empty;
@@ -1200,6 +1406,11 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
             returntext += "}";
 
             return returntext;
+        }
+
+        private void copyClipBoard()
+        {
+            Clipboard.SetData(DataFormats.Text, (Object)ServantDBText.Value);
         }
     }
 }
