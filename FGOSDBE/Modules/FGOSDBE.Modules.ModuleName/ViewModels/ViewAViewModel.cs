@@ -515,6 +515,7 @@ namespace FGOSDBE.Modules.ModuleName.ViewModels
                         setParamTargetTypeMaterial(navigationContext.Parameters["Materials"], ASkill8);
                         break;
                     case naviTargetServantDBInput:
+                        DisplayClear();
                         setServantData(navigationContext.Parameters["ServantDBText"].ToString());
                         break;
                     default:
